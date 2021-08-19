@@ -17,7 +17,7 @@ const Dashboard = () => {
 
 
   React.useEffect(() => {
-    axios.get('http://localhost:5000/todos', { headers: { token: localStorage.getItem('token')}})
+    axios.get('https://mymerntodolist.herokuapp.com/todos', { headers: { token: localStorage.getItem('token')}})
       .then(res => {
         if (res.status === 200) {
           setNotes(res.data.todos);
@@ -28,7 +28,7 @@ const Dashboard = () => {
   }, [notes])
 
   function deleteNote(_id:string) {
-    axios.delete(`http://localhost:5000/todo/${_id}`, { headers: { token: localStorage.getItem('token')}})
+    axios.delete(`https://mymerntodolist.herokuapp.com/todo/${_id}`, { headers: { token: localStorage.getItem('token')}})
       .then(res=>{
         if(res.status===200){
           toast.success(res.data.message)

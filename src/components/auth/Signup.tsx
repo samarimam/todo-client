@@ -18,7 +18,7 @@ const Signup = ({renderLogin}: SignupProps) => {
 
   const onSubmit = async () => {
     try{
-    const response = await axios.post('http://localhost:5000/signup', {
+    const response = await axios.post('https://mymerntodolist.herokuapp.com/signup', {
       username: username,
       password: password
     })

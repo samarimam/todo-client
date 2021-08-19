@@ -27,7 +27,7 @@ const CreateArea: React.FC=()=> {
   const submitNote=async(event:any)=> {
     event.preventDefault();
     try{
-        const response = await axios.post('http://localhost:5000/todo',{ 
+        const response = await axios.post('https://mymerntodolist.herokuapp.com/todo',{ 
             ...note,  token: localStorage.getItem('token')
         })
         toast.success('Successfull')
