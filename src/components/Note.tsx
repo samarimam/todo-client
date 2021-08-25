@@ -1,6 +1,5 @@
 import React from "react";
 import DeleteIcon from "@material-ui/icons/Delete";
-import axios from "axios";
 
 interface IProps{
     key: number;

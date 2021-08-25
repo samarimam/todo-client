@@ -1,7 +1,8 @@
 import React from "react";
 import axios from "axios";
 import {toast} from 'react-toastify';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
+import Loader from '../Loader'
 
 
 interface LoginProps {
@@ -10,9 +11,11 @@ interface LoginProps {
 const Login = ({renderSignup}: LoginProps) => {
   const [username, setUsername] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [loading,setLoading] = React.useState(false);
   const history = useHistory()
 
   const onSubmit = async () => {
+    setLoading(true);
     try{
       const response = await axios.post('https://mymerntodolist.herokuapp.com/login', {
       username: username,
@@ -24,13 +27,17 @@ const Login = ({renderSignup}: LoginProps) => {
         localStorage.setItem('token', token);
         toast.success('Logged in Successfully')
         history.push('/dashboard')
+        setLoading(false);
       }} catch(e) {
         // do some validation, logging
         toast.error('Incorrect username or password')
+        setLoading(false);
       }
   }
 
   return(
+    <>
+    {loading?<Loader />:
     <div style={{height: '300px'}}>
       <h1 className="text-center text-green-400 font-bold">Login</h1>
       <div className="mb-4">
@@ -47,8 +54,8 @@ const Login = ({renderSignup}: LoginProps) => {
         </div>
         <button className="rounded-lg px-6 py-3 font-bold bg-green-400 text-white" onClick={() => onSubmit()}>Login</button>
       </div>
-    </div>
-  )
-}
+    </div>}
+</>
+  )}
 
 export default Login;

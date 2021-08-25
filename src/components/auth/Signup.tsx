@@ -2,7 +2,8 @@ import React from "react";
 import axios from "axios";
 import {toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import {useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom';
+import Loader from '../Loader';
 
 interface SignupProps {
   renderLogin: () => void;
@@ -13,10 +14,12 @@ const Signup = ({renderLogin}: SignupProps) => {
   const [password, setPassword] = React.useState("");
   const [confirmPassword, setConfirmPassword] = React.useState("");
   const [disabled, setDisabled] = React.useState(false);
+  const [loading,setLoading] = React.useState(false);
 
   const history = useHistory()
 
   const onSubmit = async () => {
+    setLoading(true);
     try{
     const response = await axios.post('https://mymerntodolist.herokuapp.com/signup', {
       username: username,
@@ -29,10 +32,12 @@ const Signup = ({renderLogin}: SignupProps) => {
       
       toast.success('User added Successfully')
       history.push('/dashboard')
+      setLoading(false);
     } 
   }catch(e){
     toast.error('Something went wrong')
     console.log(e)    
+    setLoading(false);
   }
   }
 
@@ -43,6 +48,7 @@ const Signup = ({renderLogin}: SignupProps) => {
 
   return(
     <>
+    {loading?<Loader />:
     <div style={{height: '300px'}}>
       <h1 className="text-center text-green-400 font-bold">Signup</h1>
       <div className="mb-4">
@@ -63,7 +69,7 @@ const Signup = ({renderLogin}: SignupProps) => {
         </div>
         <button className={`rounded-lg px-6 py-3 font-bold text-white ${disabled ? "bg-gray-400" : "bg-green-400"}`} disabled={disabled} onClick={() => onSubmit()}>Signup</button>
       </div>
-    </div>
+    </div>}
     </>
   )
 }
