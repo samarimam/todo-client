@@ -11,10 +11,19 @@ interface IProps {
     id: string;
     title: string;
     content: string;
+    count: number;
+    setCount: (cnt: number) => void;
     onDelete(id: string): void;
 }
 
-const Note: React.FC<IProps> = ({ title, content, onDelete, id }) => {
+const Note: React.FC<IProps> = ({
+    title,
+    content,
+    onDelete,
+    id,
+    count,
+    setCount,
+}) => {
     const [edit, setEdit] = useState(false);
     const [editValue, setEditValue] = useState({
         title: title,
@@ -49,7 +58,7 @@ const Note: React.FC<IProps> = ({ title, content, onDelete, id }) => {
 
     const onSaveHandler = (id: string) => {
         axios
-            .post(`https://mymerntodolist.herokuapp.com/todo/${id}`, {
+            .post(`http://localhost:5000/todo/${id}`, {
                 ...editValue,
                 token: localStorage.getItem("token"),
             })
@@ -57,6 +66,7 @@ const Note: React.FC<IProps> = ({ title, content, onDelete, id }) => {
                 if (res.status === 200) {
                     toast.success(res.data.message);
                     setEdit(false);
+                    setCount(count + 1);
                 }
             })
             .catch((e) => {

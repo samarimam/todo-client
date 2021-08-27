@@ -65,7 +65,8 @@ const Dashboard = () => {
                             title={noteItem.title}
                             content={noteItem.content}
                             onDelete={deleteNote}
-                            // onEdit={editNote}
+                            count={count}
+                            setCount={setCount}
                         />
                     );
                 })}
